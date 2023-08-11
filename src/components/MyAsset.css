@@ -1,0 +1,16 @@
+
+
+.tittle{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.my{
+    text-align: center;
+    flex: 5;
+}
+
+.wallte{
+    margin-left: auto;
+}

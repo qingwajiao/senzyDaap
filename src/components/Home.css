@@ -1,0 +1,28 @@
+.columns {
+    display: grid;
+    grid-template-areas: "left right";
+    margin: 0 auto;
+    width: 1300px;
+
+}
+
+.left {
+    width: 600px;
+    background: #eee;
+}
+
+.right {
+    width: 700px;
+    height: 500px;
+    background: #999;
+}
+
+.firstMarket{
+    height: 200px;
+    background: #999;
+}
+
+.secondMarket{
+
+    background: #bbb;
+} 
