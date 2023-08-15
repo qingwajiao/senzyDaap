@@ -1,6 +1,5 @@
 // contract-config.js
 const contractConfig = {
-//   senzyAddress: '0x899b3d0C562A5912D724059275a4960d2067089d',
   strategy: "0xF4205837b4F6bDEF82CA02667E831eB4441703F3",
   senzyAddress: '0xaf79DEDFbf36F343Db91C5aB0c5b8Db2b7A081B5',
   usdtAddress:  '0x17494f594E44482Ef2bc151B12582c786e89AFFb',

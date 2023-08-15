@@ -1,7 +1,9 @@
-import React, { useState,useEffect } from 'react';
-import './Home.css'
+import React, { useState } from 'react';
+import './Home.css';
 import MyAsset from './MyAsset';
-import SecondMarket1 from './SecondMarket1'
+import SecondMarket from './SecondMarket';
+import FirstMarket from './FirstMarket';
+import Wallet from './Wallte';
 
 function Home(){
 
@@ -15,45 +17,33 @@ function Home(){
             senzyExchangeContract : ''
         }
     );
-
-    const [makerOrderData, setmakerOrderData] = useState(
-        {
-            isOrderAsk: true,
-            signer: '',
-            collection: '',
-            price: '',
-            tokenId: '',
-            amount: 1,
-            strategy: '',
-            currency: '',
-            nonce: '',
-            minPercentageToAsk: '',
-            params:''
-          
-    }
-    );
+    const [makerOrderList,setMakerOrderList] = useState([])
 
     const connectWallte = (data) => {
         setAccount(data);
       }
     
     const setMakeOrder = (date) =>{
-        setmakerOrderData(date);
+        const newList =  makerOrderList.concat([date]);
+        setMakerOrderList(newList);
     }
 
-//HomeSetMakeOrder = {setMakeOrder}
     return(
         <div className='Home'>
             <div className='columns'>
                 <div className='left '>
-                     <MyAsset  HomeSetMakeOrder = {setMakeOrder} /> 
+                    <div className= "wallte">
+                        < Wallet onDataUpdate={connectWallte}  />
+                    </div>
+                     <MyAsset  parenAccount = {account}  HomeSetMakeOrder = {setMakeOrder} /> 
                 </div>
                 <div className='right'>
                     <div className='firstMarket'>
-                        firstMarket
+                        {/* <h3>一级市场</h3> */}
+                        <FirstMarket parenAccount = {account} />
                     </div>
                     <div className='secondMarket'>
-                        <SecondMarket1  makerOrderData = {makerOrderData} />
+                        <SecondMarket  parenAccount = {account} parenMakerOrderList = {makerOrderList} />
                     </div>
                 </div>
             </div>

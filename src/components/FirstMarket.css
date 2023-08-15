@@ -1,49 +1,18 @@
-body {
-    background-color: black;
-}
 
-.Senzy{
+
+.tittle{
     display: flex;
-    justify-content: center;
-    color: rgb(26, 21, 21);
+    justify-content: space-between;
+    align-items: center;
+}
+
+.market{
     text-align: center;
+    flex: 5;
 }
 
-.card{
-    background-color: aquamarine;
-    width: 55%;
-    height: 65%;
-    margin-top: 10%;
-    border-radius: 10%;
-    box-shadow: 0 3px 5px white;
-}
-
-.h1{
-    font-size: 40px;
-    text-shadow: 0 2px 3px black;
-}
-
-.connect-button{
-    background-color: green;
-    border-radius: 5px;
-    box-shadow: 0 2px 2px white;
-    font-size: 15px;
-    font-weight: bold;
-    padding: 10px;
-
-}
-
-.input{
-    width: 400px;
-    height: 45px;
-    text-align: center;
-    border-radius: 5px;
-    font-size: 20px;
-    margin-right: 10px;
-}
-
-.buy-div{
-    margin: 30px;
+.wallte{
+    margin-left: auto;
 }
 
 

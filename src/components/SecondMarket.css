@@ -2,64 +2,6 @@ body {
     background-color: black;
 }
 
-.Senzy{
-    display: flex;
-    justify-content: center;
-    color: rgb(18, 29, 17);
-    text-align: center;
-}
-
-.card{
-    background-color: aquamarine;
-    width: 55%;
-    height: 65%;
-    margin-top: 10%;
-    border-radius: 10%;
-    box-shadow: 0 3px 5px white;
-}
-
-
-.input{
-    width: 400px;
-    height: 45px;
-    text-align: center;
-    border-radius: 5px;
-    font-size: 20px;
-    margin-right: 10px;
-}
-
-.makerOrder-div{
-    margin: 30px;
-}
-
-.takerOrder-div{
-    margin: 30px;
-}
-
-.title {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-.h1 {
-text-align: center;
-flex: 1; /* 让<h1>元素自动填充剩余空间，从而让文本居中显示 */
-}
-
-.connect-button {
-    align-self: flex-start; /* 将按钮内容向上对齐，使其显示在右上角 */
-  }
-
-.firstMarket{
-background-color: rgb(214, 144, 13);
-border-radius: 3px;
-box-shadow: 0 2px 2px white;
-font-size: 7px;
-font-weight: bold;
-padding: 7px;
-
-}
 
 .tittle{
     display: flex;

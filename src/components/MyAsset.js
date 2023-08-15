@@ -1,58 +1,39 @@
 import { ethers } from 'ethers';
 import React, { useState,useEffect } from 'react';
 import './MyAsset.css'
-import NftAsset2 from './NftAsset2';
-import Wallet from './Wallte';
 import NftAsset from './NftAsset';
 
-// {account,HomeSetMakeOrder}
-function MyAsset({HomeSetMakeOrder}){
 
-    // let [signer,setSigner] = useState(account.signer)
+function MyAsset({parenAccount,HomeSetMakeOrder}){
+
+    let [account,setAccount] = useState( parenAccount );
+
     let [userNftAsset,setUserNftAsset] = useState([]);
     let [balance,setBalance] = useState(0);
     const [tokenAsset, setTokenAsset] = useState('BNB');
-    let [makerOrderData, setmakerOrderData] = useState(null);
     
-    let [account,setAccount] = useState(
-        {   isConnect:false,
-            provider:'',
-            signer:'',
-            address:'',
-            senzyContract : '',
-            usdtContract : '',
-            senzyExchangeContract : ''
-        }
-    );
-
-    const initContract = async () =>{
-        let userNftAsset = await getNftAsset();
-        setUserNftAsset(userNftAsset);
-        console.log("userNftAsset:",userNftAsset);
-    }
-
     const getNftAsset = async() =>{
         
         let amount = await account.senzyContract.balanceOf(account.address);
 
-        let idList = [] ;
+        let userNftAsset = [] ;
         for (var i = 0; i < amount; i++) {
           let tokenId = await account.senzyContract.tokenOfOwnerByIndex(account.address,i);
-          idList.push({
+          userNftAsset.push({
             tokenId:tokenId.toNumber(),
             makeOrder:null
           });
         }
-        console.log(idList);
-    
-        return idList;
+        setUserNftAsset(userNftAsset);
+        console.log("userNftAsset:",userNftAsset);
+
     }
 
     
 
     const handleOptionChange =  (event) => {
         setTokenAsset(event.target.value);
-        // TODO 注意这里刚好相反了，待解决
+        
     };
 
     const getTokenAsset = async () =>{
@@ -76,28 +57,30 @@ function MyAsset({HomeSetMakeOrder}){
         }
     }
 
+    useEffect(() => {
+        setAccount(parenAccount);
+      }, [parenAccount]);
+
 
     useEffect(() => {
         if (account.signer){
-            initContract();
+            getNftAsset();
+            getTokenAsset()
         }  
-        
-        if (tokenAsset){
-            getTokenAsset();
-        }
-      }, [account.signer,tokenAsset]);
+      }, [account]);
 
-    // let userNftAsset = getTokenAsset()
+    useEffect(() => {
+        if (account.signer){
+            getTokenAsset()
+        } 
+        }, [tokenAsset]);
+
 
     const setMakeOrder = (date) =>{
-        setmakerOrderData(date);
+        // setmakerOrderData(date);
         HomeSetMakeOrder(date);
     }
 
-
-    const connectWallte = (data) => {
-        setAccount(data);
-      }
 
     return(
         <div className='myAsset'>
@@ -105,9 +88,6 @@ function MyAsset({HomeSetMakeOrder}){
             <div className='myTokenAsset'>
                 <div className='tittle'>
                     <h3 className='my'>我的资产</h3> 
-                    <div className= "wallte">
-                        < Wallet onDataUpdate={connectWallte}  />
-                    </div>
                 
                 </div>
                 <p>账户地址：{account.address} </p>
@@ -121,7 +101,7 @@ function MyAsset({HomeSetMakeOrder}){
                         />
                         BNB
                     </label>
-                    <br />
+                   
                         <input
                         type="radio"
                         value="USDT"
@@ -137,7 +117,7 @@ function MyAsset({HomeSetMakeOrder}){
             <div className='myNftAsset'>
                 <p>我的NFT:</p>
                 <ul>{userNftAsset.map(nftInfo =>
-                    <NftAsset2 account = {account} nftInfo = {nftInfo} MyAssetSetMakeOrder= {setMakeOrder}/>)}
+                    <NftAsset account = {account} nftInfo = {nftInfo} MyAssetSetMakeOrder= {setMakeOrder}/>)}
                 </ul>           
             </div>
 

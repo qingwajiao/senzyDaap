@@ -1,13 +1,20 @@
 import contractConfig from './contract-config';
 const {ethers} = require("ethers");
 
+const { senzyAddress,senzyAbi } = contractConfig;
 
 // 后端存一个admin的私钥，用于给一些特定的合约方法的参数签名
 const adminPrivateKey = "34e99c293405283be8dddc8e847c87ceae9e7e91b1995fd94aabf5032c8917c4";
 
+const sepoliaRpcUrl = "https://sepolia.infura.io/v3/fa99da8fb08c4b94b7e9a29f6d7f7c09";
+
+export const commonProvider = new ethers.providers.JsonRpcProvider(sepoliaRpcUrl);
+    // 创建SenzyContract公共合约对象，读取合约的读方法
+export const commonSenzyContract = new ethers.Contract(senzyAddress, senzyAbi, commonProvider);
+
 export async function getMintData(provider,formData) {
 
-    console.log("formData:",formData);
+    console.log("formData:",formData.tokenIds);
     // 获取 chainId
     const { chainId } = await provider.getNetwork();
     console.log("获取到的chainid:",chainId);
@@ -37,10 +44,10 @@ export async function getMintData(provider,formData) {
     // The data to sign
     // 自行构造一个结构体的值
     const value = {
-        to: formData.to, // 请替换为接收地址
-        tokenIds: formData.tokenIds, // 请替换为tokenIds的实际值
-        currency: formData.currency, // 请替换为currency的实际值
-        discount: formData.discount, // 请替换为discount的实际值
+        to: formData.to, 
+        tokenIds: formData.tokenIds,  
+        currency: formData.currency,  
+        discount: formData.discount, 
     };
     const signature = await signer._signTypedData(
         domain,
@@ -68,15 +75,15 @@ export async function getMintData(provider,formData) {
 }
 
 
-let Current = 0;
 // 跟用户购买的数量，通过后端获取相应的 tokenId； 如：用户购买数量amount=3  则后端分配3个tokenId [3,4,5] 
-export function getTokenIds(amount){
+export async function getTokenIds(amount){
+    let CurrentTokenId = await commonSenzyContract.totalSupply()
+
     let tokenIds = [];
     for (var i = 0; i < amount; i++) {
-        Current ++
-        tokenIds.push(Current);
+        CurrentTokenId ++
+        tokenIds.push(CurrentTokenId);
       }
-    console.log("tokenIds:",tokenIds);
     return tokenIds;
 }
 

@@ -1,36 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { ethers } from 'ethers';
 import contractConfig from '../contract-config';
-import Wallet from './Wallte';
 import './SecondMarket.css';
-const { senzyAddress, usdtAddress,senzyExchangeAddress,strategy } = contractConfig;
+const {senzyExchangeAddress } = contractConfig;
 
-const SecondMarket1 = ({makerOrderData}) =>{
+
+const MakerOrder = ({SecondMarketAccount, makerOrderData}) =>{
+
 
     let [confirmBuyState,setConfirmBuyState] = useState(false);
     let [showOrder,setShowOrder] = useState(true);
-    let [account,setAccount] = useState(
-        {   isConnect:false,
-            provider:'',
-            signer:'',
-            address:'',
-            senzyContract : '',
-            usdtContract : '',
-            senzyExchangeContract : ''
-        }
-    );
+    let [account,setAccount] = useState(SecondMarketAccount);
 
-    const connectWallte = (data) => {
-        setAccount(data);
-      }
+    useEffect(() => {
+        setAccount(SecondMarketAccount);
+      }, [SecondMarketAccount]);
 
-    // 确认成单
+        // 确认成单
     const ConfirmOrder = async (signMakerOrderData) => {
 
-        // let senzyExchangeContract = new ethers.Contract(senzyExchangeAddress,senzyExchangeAbi,signer);
-        // setSenzyExchangeContract(senzyExchangeContract);
-        
-        console.log("account........:",account);
         signMakerOrderData.params = "0x"
         try {
             let takerOrder = {
@@ -93,9 +81,7 @@ const SecondMarket1 = ({makerOrderData}) =>{
                 
                 alert('NFT Buy Successfully!');
                 setShowOrder(false);
-                // setShowTakerOrder(false);
-                // setShowMakerOrder(true);
-                // setBuyState(true);
+ 
             }else{
                 const approvedAddress = await account.senzyContract.getApproved(signMakerOrderData.tokenId);
                 // 转换单位为 Ether
@@ -122,8 +108,7 @@ const SecondMarket1 = ({makerOrderData}) =>{
                 // 转换单位为 Ether
                 
                 alert('NFT Buy Successfully!');
-                // setShowTakerOrder(false);
-                // setShowMakerOrder(true);
+                setShowOrder(false);
         
             }
     
@@ -135,18 +120,12 @@ const SecondMarket1 = ({makerOrderData}) =>{
         };
 
     return (
-        <div>
-            <div className='tittle'>
-                <h3 className='market'>二级市场</h3> 
-                <div className= "wallte">
-                    < Wallet onDataUpdate={connectWallte}  />
-                </div>
-               
-            </div>
-           { showOrder && ( 
-           <div>
+        <li>
+        { showOrder && ( 
+            <div>
                 <div> 藏品: &nbsp;&nbsp; Senzy&nbsp;#{makerOrderData.tokenId}</div>
                 <div> Owner: &nbsp;&nbsp;{makerOrderData.signer} </div>
+                <div> 价格：&nbsp;&nbsp; {ethers.utils.formatEther(makerOrderData.price)}</div>
                 <div>
                     支付方式：&nbsp;&nbsp;{makerOrderData.currency === '0x000000000000000000000000000000000000000b' ? "NBN": "USDT"} 
                 </div> 
@@ -155,12 +134,12 @@ const SecondMarket1 = ({makerOrderData}) =>{
                     <button onClick={() =>ConfirmOrder(makerOrderData)} disabled= {confirmBuyState }>确定购买</button>
                 </div>
                 <br></br>   
-                <div>当前用户地址:&nbsp;&nbsp; {account.address} </div>
+    
             </div>
             )}
-            
-        </div>
+        </li>
     )
 }
 
-export default SecondMarket1;
+
+export default MakerOrder;
